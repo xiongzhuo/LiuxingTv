@@ -5,9 +5,6 @@ package activity.liuxing.tv.com.tvliuxing.activity.config;
  */
 public class Constant {
     public static final String HOST = "http://smart.hnliuxing.com:8086";
-    //    public static final String BASEURL = "http://192.168.0.88:8086";
-//    public static final String BASEURL = "http://192.168.0.80:8080";
-//    public static final String BASEURL = "http://hongren.bingjun.cn/";
 
     /**
      * TV设备注册

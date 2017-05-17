@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import activity.liuxing.tv.com.tvliuxing.activity.base.BaseActivity;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.UserData;
 import activity.liuxing.tv.com.tvliuxing.activity.interfaces.StatisConstans;
 import activity.liuxing.tv.com.tvliuxing.activity.request.LodingRequest;
-import activity.liuxing.tv.com.tvliuxing.activity.util.AddressUtils;
 import butterknife.BindView;
 import butterknife.BindViews;
 
