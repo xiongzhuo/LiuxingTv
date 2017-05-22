@@ -99,8 +99,16 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 if (Utils.isNetworkAvailable(MainActivity.this)) {
-                                    socket = SocketSingle.getInstance(host, location, true);
-                                    ScoketOFFeON.receMessage(socket, protocal, handler);
+                                    try {
+                                        if (socket != null) {
+                                            socket.close();
+                                            socket = null;
+                                        }
+                                        socket = SocketSingle.getInstance(host, location, true);
+                                        ScoketOFFeON.receMessage(socket, protocal, handler);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 } else {
                                     imageWifi.setImageResource(R.drawable.wifi);
                                 }
