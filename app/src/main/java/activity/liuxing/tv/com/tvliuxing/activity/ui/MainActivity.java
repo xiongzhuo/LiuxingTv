@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity {
                     String str = (String) msg.obj;
                     if (TextUtils.isEmpty(str) || str.equals("0")) {
                         try {
-                            Thread.sleep(7000);
+                            Thread.sleep(6000);
                             getLoaction();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
