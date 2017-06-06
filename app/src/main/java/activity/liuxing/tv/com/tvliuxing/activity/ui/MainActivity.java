@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity {
                                             socket = null;
                                         }
                                         socket = SocketSingle.getInstance(host, location, true);
+                                        System.out.println("host=" + host + "location=" + location);
                                         ScoketOFFeON.receMessage(socket, protocal, handler);
                                     } catch (IOException e) {
                                         e.printStackTrace();

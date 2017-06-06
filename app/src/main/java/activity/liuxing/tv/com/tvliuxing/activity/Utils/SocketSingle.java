@@ -7,9 +7,9 @@ public class SocketSingle {
     private static Socket instance = null;
 
     public static Socket getInstance(String ip, int port, boolean isTool) {
-        if (instance == null || isTool) {                              //line 12
+        if (instance == null || isTool) {
             try {
-                instance = new Socket(ip, port);          //line 13
+                instance = new Socket(ip, port);
             } catch (IOException e) {
                 e.printStackTrace();
             }
