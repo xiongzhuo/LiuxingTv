@@ -21,6 +21,7 @@
         <activity
             android:name=".activity.ui.LodingActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

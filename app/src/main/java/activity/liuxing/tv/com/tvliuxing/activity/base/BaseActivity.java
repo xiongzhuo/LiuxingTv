@@ -48,18 +48,6 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         sharedPreferencesDB = SharedPreferencesDB.getInstance(this);
         setContentView(this.getContentLayoutId());
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    StatisConstans.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-        } else {
-            if (TextUtils.isEmpty(sharedPreferencesDB.getString(StatisConstans.USERDEVICEUUID, ""))) {
-                String imei = ((TelephonyManager) this.getSystemService(TELEPHONY_SERVICE)).getDeviceId();
-                sharedPreferencesDB.setString(StatisConstans.USERDEVICEUUID, imei);
-            }
-        }
         ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
         mContext = this;
@@ -182,25 +170,6 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
-    }
-
-    @SuppressLint("WrongConstant")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == StatisConstans.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (TextUtils.isEmpty(sharedPreferencesDB.getString(StatisConstans.USERDEVICEUUID, ""))) {
-                    String imei = ((TelephonyManager) this.getSystemService(TELEPHONY_SERVICE)).getDeviceId();
-                    sharedPreferencesDB.setString(StatisConstans.USERDEVICEUUID, imei);
-                }
-            } else {
-                // Permission Denied
-                Toast.makeText(this, "请允许才能获得设备ID", Toast.LENGTH_SHORT).show();
-            }
-            return;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

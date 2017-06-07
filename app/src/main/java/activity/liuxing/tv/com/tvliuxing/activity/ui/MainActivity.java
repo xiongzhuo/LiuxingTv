@@ -173,19 +173,22 @@ public class MainActivity extends BaseActivity {
                 case StatisConstans.MSG_QUEST_SERVER:
                     PmAllData pmAllData = (PmAllData) msg.obj;
                     getTime();
-                    if (pmAllData.getFanFreq() > 9) {
-                        if (userdevs.getUserDevList().get(clickPosition).getIson() == 0) {
-                            userdevs.getUserDevList().get(clickPosition).setIson(1);
-                            adapter.setList(userdevs.getUserDevList());
+                    if (userdevs != null && userdevs.getUserDevList().size() > 0) {
+                        if (pmAllData.getFanFreq() > 9) {
+                            if (userdevs.getUserDevList().get(clickPosition).getIson() == 0) {
+                                userdevs.getUserDevList().get(clickPosition).setIson(1);
+                                adapter.setList(userdevs.getUserDevList());
+                            }
+                            upData(pmAllData);
+                        } else {
+                            if (userdevs.getUserDevList().get(clickPosition).getIson() == 1) {
+                                userdevs.getUserDevList().get(clickPosition).setIson(0);
+                                adapter.setList(userdevs.getUserDevList());
+                            }
+                            restoreData();
                         }
-                        upData(pmAllData);
-                    } else {
-                        if (userdevs.getUserDevList().get(clickPosition).getIson() == 1) {
-                            userdevs.getUserDevList().get(clickPosition).setIson(0);
-                            adapter.setList(userdevs.getUserDevList());
-                        }
-                        restoreData();
                     }
+
                     break;
                 case StatisConstans.MSG_RECEIVED_CODE:
                     userdevs = (Userdevs) msg.obj;
@@ -250,7 +253,6 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 if (TextUtils.isEmpty(sharedPreferencesDB.getString(StatisConstans.TVTOKEN, ""))) {
                     startActivity(new Intent(MainActivity.this, LodingActivity.class));
-                    finish();
                 } else {
                     startResult();
                 }

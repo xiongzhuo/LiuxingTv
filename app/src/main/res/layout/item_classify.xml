@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp38">
+        android:paddingLeft="@dimen/dp37">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:lines="1"
                 android:text="客厅"
                 android:textColor="@color/white"
-                android:textSize="21sp" />
+                android:textSize="@dimen/sp20" />
 
             <TextView
                 android:id="@+id/tv_on_line"
@@ -39,7 +39,7 @@
                 android:paddingTop="@dimen/dp1"
                 android:text="离线"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp15" />
+                android:textSize="@dimen/sp14" />
         </LinearLayout>
     </LinearLayout>
 

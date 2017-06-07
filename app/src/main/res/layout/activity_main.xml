@@ -117,7 +117,7 @@
                     android:paddingLeft="@dimen/dp20"
                     android:text="六星云智能环境监控系统"
                     android:textColor="@color/white"
-                    android:textSize="28sp" />
+                    android:textSize="@dimen/sp28" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -226,21 +226,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
-                                android:layout_weight="1"
+                                android:layout_weight="0.9"
                                 android:gravity="center_horizontal|bottom"
                                 android:text="室内 PM 2.5"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp30" />
+                                android:textSize="@dimen/sp28" />
 
                             <TextView
                                 android:id="@+id/tv_indoor_pm"
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
-                                android:layout_weight="1.5"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.8"
                                 android:gravity="center"
                                 android:text="--"
                                 android:textColor="@android:color/white"
-                                android:textSize="110sp"
+                                android:textSize="100sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -255,7 +256,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight="0.9"
+                                android:layout_weight="0.7"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -369,11 +370,11 @@
                             android:id="@+id/tv_co"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.4"
                             android:gravity="center"
                             android:text="--"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/sp40"
+                            android:textSize="@dimen/sp35"
                             android:textStyle="bold" />
 
                         <TextView
@@ -388,7 +389,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_weight="0.9"
                             android:orientation="vertical">
 
                             <TextView
@@ -432,11 +433,11 @@
                             android:id="@+id/tv_wethar_indoor"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.4"
                             android:gravity="center"
                             android:text="--"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/sp40"
+                            android:textSize="@dimen/sp35"
                             android:textStyle="bold" />
 
                         <TextView
@@ -451,7 +452,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_weight="0.9"
                             android:orientation="vertical">
 
                             <TextView
@@ -492,11 +493,11 @@
                             android:id="@+id/tv_wethar_outdoor"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_weight="1.3"
+                            android:layout_weight="1.4"
                             android:gravity="center"
                             android:text="--"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/sp40"
+                            android:textSize="@dimen/sp35"
                             android:textStyle="bold" />
 
                         <TextView
@@ -511,7 +512,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_weight="0.9"
                             android:orientation="vertical">
 
                             <TextView
