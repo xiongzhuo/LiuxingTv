@@ -14,6 +14,7 @@ import android.widget.EditText;
 import java.util.List;
 
 import activity.liuxing.tv.com.tvliuxing.R;
+import activity.liuxing.tv.com.tvliuxing.activity.Utils.AppManager;
 import activity.liuxing.tv.com.tvliuxing.activity.Utils.ToastUtil;
 import activity.liuxing.tv.com.tvliuxing.activity.base.BaseActivity;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.UserData;
@@ -92,4 +93,8 @@ public class LodingActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        AppManager.getAppManager().AppExit(LodingActivity.this);
+    }
 }

@@ -245,6 +245,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        System.out.println("UUiD=" + sharedPreferencesDB.getString(StatisConstans.TVUUID, ""));
         setView();
         threadPoolUtils = new ThreadPoolUtils(ThreadPoolUtils.Type.CachedThread, 10);
         //当计时结束时，跳转至主界面
