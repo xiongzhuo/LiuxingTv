@@ -27,6 +27,7 @@ import activity.liuxing.tv.com.tvliuxing.R;
 import activity.liuxing.tv.com.tvliuxing.activity.Adapter.DevicesAdapter;
 import activity.liuxing.tv.com.tvliuxing.activity.Utils.SocketSingle;
 import activity.liuxing.tv.com.tvliuxing.activity.Utils.Utils;
+import activity.liuxing.tv.com.tvliuxing.activity.Utils.WifiUtils;
 import activity.liuxing.tv.com.tvliuxing.activity.base.BaseActivity;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.DataServer;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.PmAllData;
@@ -82,23 +83,23 @@ public class MainActivity extends BaseActivity {
                     threadPoolUtils.execute(new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                ScoketOFFeON.sendMessage(socket, protocal, mac);
-                                Log.i("mac", mac);
-                            } catch (Exception e) {
-                                handler.sendEmptyMessage(StatisConstans.FAIL_TWO);
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                ScoketOFFeON.sendMessage(socket, protocal, mac);
+//                            } catch (Exception e) {
+                            handler.sendEmptyMessage(StatisConstans.FAIL_TWO);
+//                                e.printStackTrace();
+//                            }
                         }
                     }));
                     break;
                 case StatisConstans.FAIL_TWO:
                     if (!TextUtils.isEmpty(host)) {
                         Log.d("ConnectionManager", host);
-                        threadPoolUtils.execute(new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (Utils.isNetworkAvailable(MainActivity.this)) {
+                        if (WifiUtils.isWifiConnected(MainActivity.this)) {
+                            imageWifi.setImageResource(R.drawable.wifi_sel);
+                            threadPoolUtils.execute(new Thread(new Runnable() {
+                                @Override
+                                public void run() {
                                     try {
                                         if (socket != null) {
                                             socket.close();
@@ -106,17 +107,18 @@ public class MainActivity extends BaseActivity {
                                         }
                                         socket = SocketSingle.getInstance(host, location, true);
                                         System.out.println("host=" + host + "location=" + location);
+                                        ScoketOFFeON.sendMessage(socket, protocal, mac);
                                         ScoketOFFeON.receMessage(socket, protocal, handler);
-                                    } catch (IOException e) {
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                } else {
-                                    imageWifi.setImageResource(R.drawable.wifi);
                                 }
-                            }
-                        }));
+                            }));
+                        } else {
+                            restoreData();
+                            imageWifi.setImageResource(R.drawable.wifi);
+                        }
                     }
-                    restoreData();
                     break;
                 case StatisConstans.MSG_OUTDOOR_PM:
                     PmBean pmBean = (PmBean) msg.obj;
@@ -140,19 +142,10 @@ public class MainActivity extends BaseActivity {
                         getOutPM();
                     }
                     break;
-                case StatisConstans.CONFIG_REGULAR:
+                case StatisConstans.MSG_IMAGE_SUCCES:
                     dataServer = (DataServer) msg.obj;
                     host = dataServer.getTvDataServerConfig().getPrimary_server_address();
                     location = dataServer.getTvDataServerConfig().getPrimary_server_port();
-                    threadPoolUtils.execute(new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            request(host, location);
-                        }
-                    }));
-                    break;
-                case StatisConstans.MSG_IMAGE_SUCCES:
-                    dataServer = (DataServer) msg.obj;
                     threadPoolUtils.execute(new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -241,6 +234,12 @@ public class MainActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         Log.d("onResume", "onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopTimer();
     }
 
     @Override

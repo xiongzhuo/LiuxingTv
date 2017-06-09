@@ -15,11 +15,10 @@ public class WifiUtils {
     //是否连接WIFI
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (wifiNetworkInfo.isConnected()) {
+        NetworkInfo wifiNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (wifiNetworkInfo != null && wifiNetworkInfo.isConnected()) {
             return true;
         }
-
         return false;
     }
 
