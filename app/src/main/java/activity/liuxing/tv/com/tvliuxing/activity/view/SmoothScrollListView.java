@@ -51,7 +51,9 @@ public class SmoothScrollListView extends ListView implements OnKeyListener {
         super.onLayout(changed, l, t, r, b);
         if (adapter != null) {
             //获取每个item 的高度，因为要调用滑动的方法，每次滑动的距离就是item 的高度
-            itemHeight = this.getChildAt(0).getHeight();
+            if (this.getChildAt(0) != null) {
+                itemHeight = this.getChildAt(0).getHeight();
+            }
         }
 
     }

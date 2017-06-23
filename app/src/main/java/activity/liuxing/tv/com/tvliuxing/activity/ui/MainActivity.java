@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +35,7 @@ import activity.liuxing.tv.com.tvliuxing.activity.base.BaseActivity;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.DataServer;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.PmAllData;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.PmBean;
+import activity.liuxing.tv.com.tvliuxing.activity.entity.UserDevList;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.UserShareName;
 import activity.liuxing.tv.com.tvliuxing.activity.entity.Userdevs;
 import activity.liuxing.tv.com.tvliuxing.activity.interfaces.StatisConstans;
@@ -49,7 +53,6 @@ import butterknife.BindView;
 import butterknife.BindViews;
 
 public class MainActivity extends BaseActivity {
-    public final long SYNC_RATE = 3600 * 1000;// 同步頻率 生产24小时
     @BindViews({R.id.ll_pm_indoor, R.id.ll_co_indoor, R.id.ll_wethar_indoor, R.id.ll_wethar_outdoor})
     List<LinearLayout> linearLayouts;
     @BindViews({R.id.tv_share_name, R.id.tv_city, R.id.tv_area, R.id.tv_sys_time, R.id.tv_outdoor_pm, R.id.tv_indoor_pm, R.id.tv_co, R.id.tv_wethar_indoor, R.id.tv_wethar_outdoor})
@@ -73,7 +76,9 @@ public class MainActivity extends BaseActivity {
     private String host;
     Userdevs userdevs;
     private Timer mTimer = null;
+    int timerTime = 0;
     String mac = "";
+    List<UserDevList> list;
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -122,10 +127,12 @@ public class MainActivity extends BaseActivity {
                     break;
                 case StatisConstans.MSG_OUTDOOR_PM:
                     PmBean pmBean = (PmBean) msg.obj;
+                    Log.d("modify_name", "刷新了pmBean" + pmBean.getPm25());
                     textViews.get(4).setText(pmBean.getPm25());
                     break;
                 case StatisConstans.MSG_MODIFY_NAME:
                     String str = (String) msg.obj;
+                    Log.d("modify_name", "刷新了定位模式" + str);
                     if (TextUtils.isEmpty(str) || str.equals("0")) {
                         try {
                             Thread.sleep(6000);
@@ -186,12 +193,23 @@ public class MainActivity extends BaseActivity {
                 case StatisConstans.MSG_RECEIVED_CODE:
                     userdevs = (Userdevs) msg.obj;
                     clickPosition = 0;
-                    mac = userdevs.getUserDevList().get(0).getDevice_mac();
-                    adapter = new DevicesAdapter(MainActivity.this, userdevs.getUserDevList());
-                    adapter.setClickPosition(clickPosition);
-                    listView.setAdapter(adapter);
+                    list.clear();
+                    list = userdevs.getUserDevList();
+                    if (list.size() > 0) {
+                        mac = userdevs.getUserDevList().get(0).getDevice_mac();
+                    } else {
+                        mac = "";
+                    }
+                    if (adapter != null) {
+                        adapter.setList(list);
+                    } else {
+                        adapter = new DevicesAdapter(MainActivity.this, list);
+                        adapter.setClickPosition(clickPosition);
+                        listView.setAdapter(adapter);
+                    }
                     break;
                 case StatisConstans.MSG_RECEIVED_BOUND:
+                    startActivity(new Intent(MainActivity.this, LodingActivity.class));
                     break;
                 default:
                     break;
@@ -213,6 +231,7 @@ public class MainActivity extends BaseActivity {
                 try {
                     UserShareNameRequest userShareNameRequest = new UserShareNameRequest(MainActivity.this, sharedPreferencesDB, handler);
                     userShareNameRequest.requestCode();
+                    getOutPM();
                     getTime();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -246,6 +265,7 @@ public class MainActivity extends BaseActivity {
     protected void initView(Bundle savedInstanceState) {
         System.out.println("UUiD=" + sharedPreferencesDB.getString(StatisConstans.TVUUID, ""));
         setView();
+        list = new ArrayList<>();
         threadPoolUtils = new ThreadPoolUtils(ThreadPoolUtils.Type.CachedThread, 10);
         //当计时结束时，跳转至主界面
         new Handler().postDelayed(new Runnable() {
@@ -387,6 +407,11 @@ public class MainActivity extends BaseActivity {
             mTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    timerTime++;
+                    if (timerTime > 600) {
+                        getOutPM();
+                        timerTime = 0;
+                    }
                     handler.sendEmptyMessage(StatisConstans.MSG_CYCLIC_TRANSMISSION);
                 }
             }, 0, 6000);

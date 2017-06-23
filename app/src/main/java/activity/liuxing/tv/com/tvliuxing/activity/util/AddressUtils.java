@@ -1,20 +1,110 @@
 package activity.liuxing.tv.com.tvliuxing.activity.util;
 
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * 根据IP地址获取本地定位
  */
 public class AddressUtils {
+//    public static String GetNetIp() {
+//        URL infoUrl = null;
+//        InputStream inStream = null;
+//        try {
+//            // http://iframe.ip138.com/ic.asp
+//            // infoUrl = new URL("http://city.ip138.com/city0.asp");
+//            infoUrl = new URL("http://ip38.com");
+//            URLConnection connection = infoUrl.openConnection();
+//            HttpURLConnection httpConnection = (HttpURLConnection) connection;
+//            int responseCode = httpConnection.getResponseCode();
+//            if (responseCode == HttpURLConnection.HTTP_OK) {
+//                inStream = httpConnection.getInputStream();
+//                BufferedReader reader = new BufferedReader(
+//                        new InputStreamReader(inStream, "utf-8"));
+//                StringBuilder strber = new StringBuilder();
+//                String line = null;
+//                while ((line = reader.readLine()) != null)
+//                    strber.append(line + "\n");
+//                inStream.close();
+//                // 从反馈的结果中提取出IP地址
+//                // int start = strber.indexOf("[");
+//                // Log.d("zph", "" + start);
+//                // int end = strber.indexOf("]", start + 1);
+//                // Log.d("zph", "" + end);
+//                line = strber.substring(378, 395);
+//                line.replaceAll(" ", "");
+//                return line;
+//            }
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
+    public static String GetNetIp() {
+        String IP = "";
+        try {
+            String address = "http://ip.taobao.com/service/getIpInfo2.php?ip=myip";
+            URL url = new URL(address);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setUseCaches(false);
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream in = connection.getInputStream();
+
+// 将流转化为字符串
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(in));
+
+                String tmpString = "";
+                StringBuilder retJSON = new StringBuilder();
+                while ((tmpString = reader.readLine()) != null) {
+                    retJSON.append(tmpString + "\n");
+                }
+
+                JSONObject jsonObject = new JSONObject(retJSON.toString());
+                Log.d("ip", "jsonObject=======" + jsonObject.toString());
+                String code = jsonObject.getString("code");
+                if (code.equals("0")) {
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    IP = data.getString("ip") + "(" + data.getString("country")
+                            + data.getString("area") + "区"
+                            + data.getString("region") + data.getString("city")
+                            + data.getString("isp") + ")";
+
+                    Log.e("提示", "您的IP地址是：" + IP);
+                } else {
+                    IP = "";
+                    Log.e("提示", "IP接口异常，无法获取IP地址！");
+                }
+            } else {
+                IP = "";
+                Log.e("提示", "网络连接异常，无法获取IP地址！");
+            }
+        } catch (Exception e) {
+            IP = "";
+            Log.e("提示", "获取IP地址时出现异常，异常信息是：" + e.toString());
+        }
+        return IP;
+    }
 
     /**
      * 得到本机的外网ip，出现异常时返回空串""
@@ -173,7 +263,9 @@ public class AddressUtils {
         // 这里调用pconline的接口
         String urlStr = "http://ip.taobao.com/service/getIpInfo.php";
         // 从http://whois.pconline.com.cn取得IP所在的省市区信息
+        Log.d("ip", "content----------" + content);
         String returnStr = this.getResult(urlStr, content, encodingString);
+        Log.d("ip", "returnStr----------" + returnStr);
         if (returnStr != null) {
             // 处理返回的省市区信息
             System.out.println(returnStr);
@@ -227,7 +319,7 @@ public class AddressUtils {
                         break;
                 }
             }
-            // System.out.println(country+"="+area+"="+region+"="+city+"="+county+"="+isp);
+            System.out.println(country + "=" + area + "=" + region + "=" + city + "=" + county + "=" + isp);
             return city + "|" + county;
         }
         return null;
@@ -236,9 +328,12 @@ public class AddressUtils {
     // 这里我们举的例子是获取所在地省份名称，也可以改变上边getAddress的返回值，获取具体的市县名
     public static String getProvinceName() {
         AddressUtils addressUtils = new AddressUtils();
-        String ip = getPublicIP();
+        String ip = "myip";
         String address = "";
         try {
+//            if (TextUtils.isEmpty(ip)) {
+//                ip = "myip";
+//            }
             address = addressUtils.getAddresses("ip=" + ip, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
