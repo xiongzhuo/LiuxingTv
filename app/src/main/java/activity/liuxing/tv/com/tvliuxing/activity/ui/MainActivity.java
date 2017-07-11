@@ -85,17 +85,17 @@ public class MainActivity extends BaseActivity {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case StatisConstans.MSG_CYCLIC_TRANSMISSION:
-                    threadPoolUtils.execute(new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+//                    threadPoolUtils.execute(new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
 //                            try {
 //                                ScoketOFFeON.sendMessage(socket, protocal, mac);
 //                            } catch (Exception e) {
                             handler.sendEmptyMessage(StatisConstans.FAIL_TWO);
 //                                e.printStackTrace();
 //                            }
-                        }
-                    }));
+//                        }
+//                    }));
                     break;
                 case StatisConstans.FAIL_TWO:
                     if (!TextUtils.isEmpty(host)) {
@@ -133,21 +133,21 @@ public class MainActivity extends BaseActivity {
                 case StatisConstans.MSG_MODIFY_NAME:
                     String str = (String) msg.obj;
                     Log.d("modify_name", "刷新了定位模式" + str);
-                    if (TextUtils.isEmpty(str) || str.equals("0")) {
-                        try {
-                            Thread.sleep(6000);
-                            getLoaction();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
+//                    if (TextUtils.isEmpty(str) || str.equals("0")) {
+//                        try {
+//                            Thread.sleep(6000);
+//                            getLoaction();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
                         String[] arr = str.split("\\|");
                         textViews.get(1).setText(arr[0]);
                         if (arr.length > 1) {
                             textViews.get(2).setText(arr[1]);
                         }
                         getOutPM();
-                    }
+//                    }
                     break;
                 case StatisConstans.MSG_IMAGE_SUCCES:
                     dataServer = (DataServer) msg.obj;
@@ -323,11 +323,15 @@ public class MainActivity extends BaseActivity {
     }
 
     public void getLoaction() {
-        threadPoolUtils.execute(new Runnable() {
+            threadPoolUtils.execute(new Runnable() {
             @Override
             public void run() {
                 String address = AddressUtils.getProvinceName();
-                handler.sendMessage(handler.obtainMessage(StatisConstans.MSG_MODIFY_NAME, address));
+                if(!TextUtils.isEmpty(address) && !address.equals("0")){
+                    handler.sendMessage(handler.obtainMessage(StatisConstans.MSG_MODIFY_NAME, address));
+                }else {
+                    handler.sendMessage(handler.obtainMessage(StatisConstans.MSG_MODIFY_NAME, "长沙市"));
+                }
             }
         });
     }
@@ -390,9 +394,10 @@ public class MainActivity extends BaseActivity {
                 socket.close();
                 socket = null;
             }
+            handler.removeCallbacksAndMessages(null);
             stopTimer();
             System.exit(0);
-
+            System.gc();
         } catch (IOException e) {
             e.printStackTrace();
         }

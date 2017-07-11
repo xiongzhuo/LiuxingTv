@@ -153,7 +153,7 @@ public class AddressUtils {
             connection.setReadTimeout(2000);// 设置读取数据超时时间，单位毫秒
             connection.setDoOutput(true);// 是否打开输出流 true|false
             connection.setDoInput(true);// 是否打开输入流true|false
-            connection.setRequestMethod("POST");// 提交方法POST|GET
+            connection.setRequestMethod("GET");// 提交方法POST|GET
             connection.setUseCaches(false);// 是否缓存true|false
             connection.connect();// 打开连接端口
             DataOutputStream out = new DataOutputStream(connection

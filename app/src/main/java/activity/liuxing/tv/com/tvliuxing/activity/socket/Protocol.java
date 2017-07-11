@@ -1351,14 +1351,15 @@ public class Protocol {
         try {
             System.out.println("key:\t" + Arrays.toString(key));
             System.out.println("iv:\t" + Arrays.toString(initVector));//UTF-8 ,GBK,ISO8859-1
-            IvParameterSpec iv = new IvParameterSpec(initVector);
-            SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+//            IvParameterSpec iv = new IvParameterSpec(initVector);
+//            SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
 
             //Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING");
-            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+//            Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING");
+//            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
 
-            byte[] encrypted = cipher.doFinal(value);
+//            byte[] encrypted = cipher.doFinal(value);
+            byte[] encrypted = value;
             System.out.println(Arrays.toString(encrypted));
             //System.out.println("encrypted string: "
             //        + Base64.encodeBase64String(encrypted));
@@ -1377,14 +1378,15 @@ public class Protocol {
     //AES CTR 解密
     public static byte[] decrypt_CTR(byte[] key, byte[] initVector, byte[] encrypted) {
         try {
-            IvParameterSpec iv = new IvParameterSpec(initVector);
-            SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
-
-            Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING");
-            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+//            IvParameterSpec iv = new IvParameterSpec(initVector);
+//            SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+//
+//            Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING");
+//            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
 
             //byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
-            byte[] original = cipher.doFinal(encrypted);
+//            byte[] original = cipher.doFinal(encrypted);
+            byte[] original = encrypted;
             System.out.println(DigitalTrans.byte2hex(original));
             return original;
         } catch (Exception ex) {
