@@ -1328,6 +1328,7 @@ public class Protocol {
             }
             pos++;
         }
+
         handler.sendMessage(handler.obtainMessage(StatisConstans.MSG_QUEST_SERVER, pmAllData));
     }
 
