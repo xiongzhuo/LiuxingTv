@@ -1344,7 +1344,6 @@ public class Protocol {
         } else {
             retB = (byte) 0xff;
         }
-
         return retB;
     }
 

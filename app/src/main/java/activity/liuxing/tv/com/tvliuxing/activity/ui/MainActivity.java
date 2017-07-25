@@ -85,21 +85,24 @@ public class MainActivity extends BaseActivity {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case StatisConstans.MSG_CYCLIC_TRANSMISSION:
-//                    threadPoolUtils.execute(new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                ScoketOFFeON.sendMessage(socket, protocal, mac);
-//                            } catch (Exception e) {
-                            handler.sendEmptyMessage(StatisConstans.FAIL_TWO);
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }));
+                    threadPoolUtils.execute(new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                socket.sendUrgentData(1);
+                                ScoketOFFeON.sendMessage(socket, mac);
+                                Log.d("socket", "ScoketOFFeON.sendMessage");
+                            } catch (Exception e) {
+                                handler.sendEmptyMessage(StatisConstans.FAIL_TWO);
+                                Log.d("socket", "ScoketOFFeON.sendMessage==Exception");
+                                e.printStackTrace();
+                            }
+                        }
+                    }));
                     break;
                 case StatisConstans.FAIL_TWO:
                     if (!TextUtils.isEmpty(host)) {
-                        Log.d("ConnectionManager", host);
+                        Log.d("socket", host);
                         if (WifiUtils.isWifiConnected(MainActivity.this)) {
                             imageWifi.setImageResource(R.drawable.wifi_sel);
                             threadPoolUtils.execute(new Thread(new Runnable() {
@@ -111,9 +114,9 @@ public class MainActivity extends BaseActivity {
                                             socket = null;
                                         }
                                         socket = SocketSingle.getInstance(host, location, true);
-                                        System.out.println("host=" + host + "location=" + location);
-                                        ScoketOFFeON.sendMessage(socket, protocal, mac);
-                                        ScoketOFFeON.receMessage(socket, protocal, handler);
+                                        Log.d("socket", "host=" + host + "location=" + location);
+                                        ScoketOFFeON.sendMessage(socket, mac);
+                                        ScoketOFFeON.receMessage(socket, handler);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -141,12 +144,12 @@ public class MainActivity extends BaseActivity {
 //                            e.printStackTrace();
 //                        }
 //                    } else {
-                        String[] arr = str.split("\\|");
-                        textViews.get(1).setText(arr[0]);
-                        if (arr.length > 1) {
-                            textViews.get(2).setText(arr[1]);
-                        }
-                        getOutPM();
+                    String[] arr = str.split("\\|");
+                    textViews.get(1).setText(arr[0]);
+                    if (arr.length > 1) {
+                        textViews.get(2).setText(arr[1]);
+                    }
+                    getOutPM();
 //                    }
                     break;
                 case StatisConstans.MSG_IMAGE_SUCCES:
@@ -202,6 +205,7 @@ public class MainActivity extends BaseActivity {
                     }
                     if (adapter != null) {
                         adapter.setList(list);
+                        listView.setAdapter(adapter);
                     } else {
                         adapter = new DevicesAdapter(MainActivity.this, list);
                         adapter.setClickPosition(clickPosition);
@@ -323,13 +327,13 @@ public class MainActivity extends BaseActivity {
     }
 
     public void getLoaction() {
-            threadPoolUtils.execute(new Runnable() {
+        threadPoolUtils.execute(new Runnable() {
             @Override
             public void run() {
                 String address = AddressUtils.getProvinceName();
-                if(!TextUtils.isEmpty(address) && !address.equals("0")){
+                if (!TextUtils.isEmpty(address) && !address.equals("0")) {
                     handler.sendMessage(handler.obtainMessage(StatisConstans.MSG_MODIFY_NAME, address));
-                }else {
+                } else {
                     handler.sendMessage(handler.obtainMessage(StatisConstans.MSG_MODIFY_NAME, "长沙市"));
                 }
             }
@@ -378,7 +382,7 @@ public class MainActivity extends BaseActivity {
             threadPoolUtils.execute(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ScoketOFFeON.receMessage(socket, protocal, handler);
+                    ScoketOFFeON.receMessage(socket, handler);
                 }
             }));
         } catch (Exception e) {

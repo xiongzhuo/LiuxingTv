@@ -10,12 +10,11 @@ import java.net.Socket;
  */
 
 public class ScoketOFFeON {
+    static Protocal p = Protocal.getInstance();
+
     //发送查询
-    public static void sendMessage(Socket s, Protocal p, String mac) throws Exception {
+    public static void sendMessage(Socket s, String mac) throws Exception {
         // 2.创建Protocal对像
-        if (p == null) {
-            p = new Protocal();
-        }
         // 3.用Protocal生成并发送请求数据
         Log.d("ConnectionManager", "AbsClient*****发送请求");
         p.sendRequest(s.getOutputStream(), mac);
@@ -23,11 +22,8 @@ public class ScoketOFFeON {
     }
 
     //接受数据
-    public static void receMessage(Socket s, Protocal p, Handler handler) {
+    public static void receMessage(Socket s, Handler handler) {
         try {
-            if (p == null) {
-                p = new Protocal();
-            }
             // 4.用Protocal接收并解析响应数据
             Log.d("ConnectionManager", "AbsClient*****接收响应");
             p.receiveResponse(s, handler);

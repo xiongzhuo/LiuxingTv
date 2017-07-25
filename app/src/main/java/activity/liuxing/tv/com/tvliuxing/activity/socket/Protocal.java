@@ -24,21 +24,25 @@ public class Protocal {
     /**
      * 单例对象实例
      */
-    private static Protocal instance = null;
+    private volatile static Protocal instance;
 
-    public static Protocal getInstance() {
-        if (instance == null) {                              //line 12
-            instance = new Protocal();          //line 13
-
-        }
-        return instance;
-
+    private Protocal() {
     }
 
+    public static Protocal getInstance() {
+        if (instance == null) {
+            synchronized (Protocal.class) {
+                if (instance == null)
+                    instance = new Protocal();
+            }
+        }
+        return instance;
+    }
 
     /********
      * 发送查询指令
      ***************************************************/
+
     public void sendRequest(OutputStream out, String mac) throws Exception {
         Log.d("ConnectionManager", "AbsClient===in" + mac);
         out.write(Protocol.questServer(mac));
