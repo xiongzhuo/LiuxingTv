@@ -63,6 +63,63 @@ public class PmAllData implements Serializable {
     private int systemClockMin;//系统时间分校准
     private String faultStatus;//故障状态
 
+    public PmAllData(String oNstate, boolean muteMode, boolean coMode, boolean pmMode, String exhaustMode, int exhaustRatio, String lcdBacklight, int auxHeating, String constTempMode, String constHumiMode, int constTempPara, int constHumiPara, int fanFreq, int blowerSpeed, int exhaustSpeed, int blowingRate, int thawStartTemp, int thawStopTemp, int thawTime, int thawInv, int dustwiperClearPeriod, int dustwiperClearRemain, int timeMode, boolean timerOneState, boolean timerTwoState, boolean timerThreeState, int timerOneStartHour, int timerOneStartMin, int timerOneEndHour, int timerOneEndMin, int timerTwoStartHour, int timerTwoStartMin, int timerTwoEndHour, int timerTwoEndMin, int timerThreeStartHour, int timerThreeStartMin, int timerThreeEndHour, int timerThreeEndMin, int co2Adj, String funcStatus, int pmAdj, int sensorIndoorTemp, int sensorOutdoorTemp, int sensorFanTemp, int sensorExhaustTemp, int co2Thickness, int indoorPmThickness, int outdoorPmThickness, int systemClockYear, int systemClockMouth, int systemClockDay, int systemClockHour, int systemClockMin, String faultStatus) {
+        this.oNstate = oNstate;
+        this.muteMode = muteMode;
+        this.coMode = coMode;
+        this.pmMode = pmMode;
+        this.exhaustMode = exhaustMode;
+        this.exhaustRatio = exhaustRatio;
+        this.lcdBacklight = lcdBacklight;
+        this.auxHeating = auxHeating;
+        this.constTempMode = constTempMode;
+        this.constHumiMode = constHumiMode;
+        this.constTempPara = constTempPara;
+        this.constHumiPara = constHumiPara;
+        this.fanFreq = fanFreq;
+        this.blowerSpeed = blowerSpeed;
+        this.exhaustSpeed = exhaustSpeed;
+        this.blowingRate = blowingRate;
+        this.thawStartTemp = thawStartTemp;
+        this.thawStopTemp = thawStopTemp;
+        this.thawTime = thawTime;
+        this.thawInv = thawInv;
+        this.dustwiperClearPeriod = dustwiperClearPeriod;
+        this.dustwiperClearRemain = dustwiperClearRemain;
+        this.timeMode = timeMode;
+        this.timerOneState = timerOneState;
+        this.timerTwoState = timerTwoState;
+        this.timerThreeState = timerThreeState;
+        this.timerOneStartHour = timerOneStartHour;
+        this.timerOneStartMin = timerOneStartMin;
+        this.timerOneEndHour = timerOneEndHour;
+        this.timerOneEndMin = timerOneEndMin;
+        this.timerTwoStartHour = timerTwoStartHour;
+        this.timerTwoStartMin = timerTwoStartMin;
+        this.timerTwoEndHour = timerTwoEndHour;
+        this.timerTwoEndMin = timerTwoEndMin;
+        this.timerThreeStartHour = timerThreeStartHour;
+        this.timerThreeStartMin = timerThreeStartMin;
+        this.timerThreeEndHour = timerThreeEndHour;
+        this.timerThreeEndMin = timerThreeEndMin;
+        this.co2Adj = co2Adj;
+        this.funcStatus = funcStatus;
+        this.pmAdj = pmAdj;
+        this.sensorIndoorTemp = sensorIndoorTemp;
+        this.sensorOutdoorTemp = sensorOutdoorTemp;
+        this.sensorFanTemp = sensorFanTemp;
+        this.sensorExhaustTemp = sensorExhaustTemp;
+        this.co2Thickness = co2Thickness;
+        this.indoorPmThickness = indoorPmThickness;
+        this.outdoorPmThickness = outdoorPmThickness;
+        this.systemClockYear = systemClockYear;
+        this.systemClockMouth = systemClockMouth;
+        this.systemClockDay = systemClockDay;
+        this.systemClockHour = systemClockHour;
+        this.systemClockMin = systemClockMin;
+        this.faultStatus = faultStatus;
+    }
+
     public String getoNstate() {
         return oNstate;
     }
@@ -497,5 +554,65 @@ public class PmAllData implements Serializable {
 
     public void setFaultStatus(String faultStatus) {
         this.faultStatus = faultStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "PmAllData{" +
+                "oNstate='" + oNstate + '\'' +
+                ", muteMode=" + muteMode +
+                ", coMode=" + coMode +
+                ", pmMode=" + pmMode +
+                ", exhaustMode='" + exhaustMode + '\'' +
+                ", exhaustRatio=" + exhaustRatio +
+                ", lcdBacklight='" + lcdBacklight + '\'' +
+                ", auxHeating=" + auxHeating +
+                ", constTempMode='" + constTempMode + '\'' +
+                ", constHumiMode='" + constHumiMode + '\'' +
+                ", constTempPara=" + constTempPara +
+                ", constHumiPara=" + constHumiPara +
+                ", fanFreq=" + fanFreq +
+                ", blowerSpeed=" + blowerSpeed +
+                ", exhaustSpeed=" + exhaustSpeed +
+                ", blowingRate=" + blowingRate +
+                ", thawStartTemp=" + thawStartTemp +
+                ", thawStopTemp=" + thawStopTemp +
+                ", thawTime=" + thawTime +
+                ", thawInv=" + thawInv +
+                ", dustwiperClearPeriod=" + dustwiperClearPeriod +
+                ", dustwiperClearRemain=" + dustwiperClearRemain +
+                ", timeMode=" + timeMode +
+                ", timerOneState=" + timerOneState +
+                ", timerTwoState=" + timerTwoState +
+                ", timerThreeState=" + timerThreeState +
+                ", timerOneStartHour=" + timerOneStartHour +
+                ", timerOneStartMin=" + timerOneStartMin +
+                ", timerOneEndHour=" + timerOneEndHour +
+                ", timerOneEndMin=" + timerOneEndMin +
+                ", timerTwoStartHour=" + timerTwoStartHour +
+                ", timerTwoStartMin=" + timerTwoStartMin +
+                ", timerTwoEndHour=" + timerTwoEndHour +
+                ", timerTwoEndMin=" + timerTwoEndMin +
+                ", timerThreeStartHour=" + timerThreeStartHour +
+                ", timerThreeStartMin=" + timerThreeStartMin +
+                ", timerThreeEndHour=" + timerThreeEndHour +
+                ", timerThreeEndMin=" + timerThreeEndMin +
+                ", co2Adj=" + co2Adj +
+                ", funcStatus='" + funcStatus + '\'' +
+                ", pmAdj=" + pmAdj +
+                ", sensorIndoorTemp=" + sensorIndoorTemp +
+                ", sensorOutdoorTemp=" + sensorOutdoorTemp +
+                ", sensorFanTemp=" + sensorFanTemp +
+                ", sensorExhaustTemp=" + sensorExhaustTemp +
+                ", co2Thickness=" + co2Thickness +
+                ", indoorPmThickness=" + indoorPmThickness +
+                ", outdoorPmThickness=" + outdoorPmThickness +
+                ", systemClockYear=" + systemClockYear +
+                ", systemClockMouth=" + systemClockMouth +
+                ", systemClockDay=" + systemClockDay +
+                ", systemClockHour=" + systemClockHour +
+                ", systemClockMin=" + systemClockMin +
+                ", faultStatus='" + faultStatus + '\'' +
+                '}';
     }
 }

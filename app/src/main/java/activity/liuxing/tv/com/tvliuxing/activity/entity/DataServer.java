@@ -7,6 +7,10 @@ package activity.liuxing.tv.com.tvliuxing.activity.entity;
 public class DataServer {
     private TvDataServerConfig tvDataServerConfig;
 
+    public DataServer(TvDataServerConfig tvDataServerConfig) {
+        this.tvDataServerConfig = tvDataServerConfig;
+    }
+
     public void setTvDataServerConfig(TvDataServerConfig tvDataServerConfig) {
         this.tvDataServerConfig = tvDataServerConfig;
     }

@@ -9,6 +9,10 @@ import java.io.Serializable;
 public class UserData implements Serializable {
     String tv_token;
 
+    public UserData(String tv_token) {
+        this.tv_token = tv_token;
+    }
+
     public String getTv_token() {
         return tv_token;
     }

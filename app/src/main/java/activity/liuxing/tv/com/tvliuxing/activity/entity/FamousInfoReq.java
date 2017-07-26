@@ -9,6 +9,11 @@ public class FamousInfoReq implements Serializable {
     public String accountId;
     public String page; //关键字
 
+    public FamousInfoReq(String accountId, String page) {
+        this.accountId = accountId;
+        this.page = page;
+    }
+
     public String getAccountId() {
         return accountId;
     }
